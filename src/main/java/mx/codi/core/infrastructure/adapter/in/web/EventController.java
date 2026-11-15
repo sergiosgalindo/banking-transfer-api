@@ -87,6 +87,23 @@ public class EventController {
         return TicketTypeResponse.from(new TicketOffer(created, created.unitPrice(OffsetDateTime.now(clock))));
     }
 
+    @PutMapping("/{eventId}/ticket-types/{ticketTypeId}")
+    public TicketTypeResponse updateTicketType(
+            @PathVariable UUID eventId,
+            @PathVariable UUID ticketTypeId,
+            @RequestBody AddTicketTypeRequest request
+    ) {
+        TicketType updated = manageEvents.updateTicketType(new ManageEventUseCase.UpdateTicketType(
+                eventId,
+                ticketTypeId,
+                request.name(),
+                request.regularPrice(),
+                request.presalePrice(),
+                request.presaleEndsAt(),
+                request.capacity()));
+        return TicketTypeResponse.from(new TicketOffer(updated, updated.unitPrice(OffsetDateTime.now(clock))));
+    }
+
     public record CreateEventRequest(
             String name,
             String venue,

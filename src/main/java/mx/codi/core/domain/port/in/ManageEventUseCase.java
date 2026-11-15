@@ -14,6 +14,8 @@ public interface ManageEventUseCase {
 
     TicketType addTicketType(AddTicketType command);
 
+    TicketType updateTicketType(UpdateTicketType command);
+
     record CreateEvent(
             String name,
             String venue,
@@ -42,6 +44,17 @@ public interface ManageEventUseCase {
 
     record AddTicketType(
             UUID eventId,
+            String name,
+            BigDecimal regularPrice,
+            BigDecimal presalePrice,
+            OffsetDateTime presaleEndsAt,
+            int capacity
+    ) {
+    }
+
+    record UpdateTicketType(
+            UUID eventId,
+            UUID ticketTypeId,
             String name,
             BigDecimal regularPrice,
             BigDecimal presalePrice,

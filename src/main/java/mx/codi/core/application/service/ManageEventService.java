@@ -73,4 +73,27 @@ public class ManageEventService implements ManageEventUseCase {
                 0,
                 0));
     }
+
+    @Override
+    public TicketType updateTicketType(UpdateTicketType command) {
+        events.findById(command.eventId()).orElseThrow(() -> new NotFoundException("event not found"));
+        TicketType existing = ticketTypes.findById(command.ticketTypeId())
+                .orElseThrow(() -> new NotFoundException("ticket type not found"));
+        if (command.capacity() < existing.sold() + existing.reserved()) {
+            throw new IllegalArgumentException("capacity cannot be lower than sold + reserved");
+        }
+        if (command.regularPrice() == null || command.regularPrice().signum() <= 0) {
+            throw new IllegalArgumentException("regularPrice must be positive");
+        }
+        return ticketTypes.save(new TicketType(
+                existing.id(),
+                existing.eventId(),
+                command.name() != null && !command.name().isBlank() ? command.name() : existing.name(),
+                command.regularPrice(),
+                command.presalePrice(),
+                command.presaleEndsAt() != null ? command.presaleEndsAt() : existing.presaleEndsAt(),
+                command.capacity(),
+                existing.sold(),
+                existing.reserved()));
+    }
 }

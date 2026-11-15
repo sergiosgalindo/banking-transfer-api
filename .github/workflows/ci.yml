@@ -10,21 +10,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: codi
-          POSTGRES_PASSWORD: codi
-          POSTGRES_DB: codi
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
     - uses: actions/checkout@v4
 
@@ -38,9 +23,5 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
-      env:
-        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/codi
-        SPRING_DATASOURCE_USERNAME: codi
-        SPRING_DATASOURCE_PASSWORD: codi
+    - name: Build and test with Gradle
       run: ./gradlew build test --no-daemon

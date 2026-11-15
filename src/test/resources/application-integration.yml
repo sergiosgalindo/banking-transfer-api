@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+codi:
+  seed:
+    enabled: false
+  pey:
+    mode: fake
+    success-url: https://pay.example/success
+    back-url: https://pay.example/back
+  webhook:
+    secret: whsec_dGVzdC1zZWNyZXQ=
+  notifications:
+    mode: fake

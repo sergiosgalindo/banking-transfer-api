@@ -1,0 +1,1 @@
+ALTER TABLE event ADD COLUMN flyer_image VARCHAR(5000000);

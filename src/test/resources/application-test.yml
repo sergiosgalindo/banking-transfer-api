@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:codi;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+codi:
+  seed:
+    enabled: false
+  pey:
+    mode: fake
+    success-url: https://pay.example/success
+    back-url: https://pay.example/back
+  webhook:
+    secret: whsec_dGVzdC1zZWNyZXQ=
+  notifications:
+    mode: fake

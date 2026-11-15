@@ -1,0 +1,37 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: mex-transfer-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/codi}
+    username: ${SPRING_DATASOURCE_USERNAME:codi}
+    password: ${SPRING_DATASOURCE_PASSWORD:codi}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+
+codi:
+  cors:
+    allowed-origin: ${BACKOFFICE_ORIGIN:http://localhost:5173}
+  seed:
+    enabled: true
+  pey:
+    mode: ${PEY_MODE:fake}
+    base-url: ${PEY_BASE_URL:https://api.pey.mx}
+    api-key: ${PEY_API_KEY:}
+    success-url: ${PEY_SUCCESS_URL:https://5bf1-2605-59c8-7171-5108-c579-614e-26e8-1f46.ngrok-free.app/payment/success}
+    back-url: ${PEY_BACK_URL:https://5bf1-2605-59c8-7171-5108-c579-614e-26e8-1f46.ngrok-free.app/payment/back}
+  webhook:
+    secret: ${PEY_WEBHOOK_SECRET:}
+    tolerance-seconds: ${PEY_WEBHOOK_TOLERANCE_SECONDS:300}
+  notifications:
+    mode: ${NOTIFICATIONS_MODE:fake}
+    bot-url: ${BOT_INTERNAL_URL:http://localhost:8000}
+  internal-token: ${INTERNAL_API_TOKEN:}

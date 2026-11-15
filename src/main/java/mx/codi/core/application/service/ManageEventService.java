@@ -37,14 +37,36 @@ public class ManageEventService implements ManageEventUseCase {
     }
 
     @Override
-    public Event updateFlyer(UpdateEventFlyer command) {
+    public Event updateEvent(UpdateEvent command) {
         Event existing = events.findById(command.eventId())
                 .orElseThrow(() -> new NotFoundException("event not found"));
+        String updatedName = command.name() != null && !command.name().isBlank() ? command.name().trim() : existing.name();
+        String updatedVenue = command.venue() != null && !command.venue().isBlank() ? command.venue().trim() : existing.venue();
+        java.time.OffsetDateTime updatedStartsAt = command.startsAt() != null ? command.startsAt() : existing.startsAt();
+        String updatedCategory = command.category() != null && !command.category().isBlank() ? command.category().trim() : existing.category();
         String updatedDescription = command.description() != null ? command.description() : existing.description();
         String updatedFlyer = command.flyerImage() != null ? command.flyerImage() : existing.flyerImage();
         return events.save(new Event(
                 existing.id(),
-                existing.name(),
+                updatedName,
+                updatedVenue,
+                updatedStartsAt,
+                updatedCategory,
+                updatedDescription,
+                updatedFlyer,
+                existing.ticketTypes()));
+    }
+
+    @Override
+    public Event updateFlyer(UpdateEventFlyer command) {
+        Event existing = events.findById(command.eventId())
+                .orElseThrow(() -> new NotFoundException("event not found"));
+        String updatedName = command.name() != null && !command.name().isBlank() ? command.name().trim() : existing.name();
+        String updatedDescription = command.description() != null ? command.description() : existing.description();
+        String updatedFlyer = command.flyerImage() != null ? command.flyerImage() : existing.flyerImage();
+        return events.save(new Event(
+                existing.id(),
+                updatedName,
                 existing.venue(),
                 existing.startsAt(),
                 existing.category(),

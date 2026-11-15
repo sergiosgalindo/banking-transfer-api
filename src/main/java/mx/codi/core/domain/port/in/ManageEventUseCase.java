@@ -10,6 +10,8 @@ public interface ManageEventUseCase {
 
     Event createEvent(CreateEvent command);
 
+    Event updateEvent(UpdateEvent command);
+
     Event updateFlyer(UpdateEventFlyer command);
 
     TicketType addTicketType(AddTicketType command);
@@ -35,11 +37,26 @@ public interface ManageEventUseCase {
         }
     }
 
-    record UpdateEventFlyer(
+    record UpdateEvent(
             UUID eventId,
+            String name,
+            String venue,
+            OffsetDateTime startsAt,
+            String category,
             String description,
             String flyerImage
     ) {
+    }
+
+    record UpdateEventFlyer(
+            UUID eventId,
+            String name,
+            String description,
+            String flyerImage
+    ) {
+        public UpdateEventFlyer(UUID eventId, String description, String flyerImage) {
+            this(eventId, null, description, flyerImage);
+        }
     }
 
     record AddTicketType(

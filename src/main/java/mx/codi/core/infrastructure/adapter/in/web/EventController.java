@@ -62,10 +62,28 @@ public class EventController {
         return EventResponse.from(new EventOffer(created, List.of()));
     }
 
+    @PutMapping("/{eventId}")
+    public EventResponse updateEvent(@PathVariable UUID eventId, @RequestBody UpdateEventRequest request) {
+        Event updated = manageEvents.updateEvent(new ManageEventUseCase.UpdateEvent(
+                eventId,
+                request.name(),
+                request.venue(),
+                request.startsAt(),
+                request.category(),
+                request.description(),
+                request.flyerImage()));
+        OffsetDateTime now = OffsetDateTime.now(clock);
+        List<TicketOffer> offers = updated.ticketTypes().stream()
+                .map(tt -> new TicketOffer(tt, tt.unitPrice(now)))
+                .toList();
+        return EventResponse.from(new EventOffer(updated, offers));
+    }
+
     @PutMapping("/{eventId}/flyer")
     public EventResponse updateFlyer(@PathVariable UUID eventId, @RequestBody UpdateFlyerRequest request) {
         Event updated = manageEvents.updateFlyer(new UpdateEventFlyer(
                 eventId,
+                request.name(),
                 request.description(),
                 request.flyerImage()));
         OffsetDateTime now = OffsetDateTime.now(clock);
@@ -114,7 +132,18 @@ public class EventController {
     ) {
     }
 
+    public record UpdateEventRequest(
+            String name,
+            String venue,
+            OffsetDateTime startsAt,
+            String category,
+            String description,
+            String flyerImage
+    ) {
+    }
+
     public record UpdateFlyerRequest(
+            String name,
             String description,
             String flyerImage
     ) {

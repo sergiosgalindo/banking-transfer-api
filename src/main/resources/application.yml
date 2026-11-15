@@ -26,8 +26,8 @@ codi:
     mode: ${PEY_MODE:fake}
     base-url: ${PEY_BASE_URL:https://api.pey.mx}
     api-key: ${PEY_API_KEY:}
-    success-url: ${PEY_SUCCESS_URL:https://5bf1-2605-59c8-7171-5108-c579-614e-26e8-1f46.ngrok-free.app/payment/success}
-    back-url: ${PEY_BACK_URL:https://5bf1-2605-59c8-7171-5108-c579-614e-26e8-1f46.ngrok-free.app/payment/back}
+    success-url: ${PEY_SUCCESS_URL:http://localhost:5173/payment/success}
+    back-url: ${PEY_BACK_URL:http://localhost:5173/payment/back}
   webhook:
     secret: ${PEY_WEBHOOK_SECRET:}
     tolerance-seconds: ${PEY_WEBHOOK_TOLERANCE_SECONDS:300}

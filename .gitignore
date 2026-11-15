@@ -1,7 +1,7 @@
 .gradle/
-build/
-bin/
-out/
+/build/
+/bin/
+/out/
 *.class
 *.log
 .idea/
